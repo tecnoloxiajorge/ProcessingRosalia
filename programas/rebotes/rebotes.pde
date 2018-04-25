@@ -1,98 +1,49 @@
 /* rebotes
 * @author jorge gomez
-* @version 1.0
+* @version 2.0
 */
 
-//variables
-int posX=int(random(40,600)); //declaro variable posición X
-int posY=int(random(40,320)); //declaro variable posición Y
-int velX=3;
-int velY=2;
-//circulo2
-int posX2=int(random(40,600));; 
-int posY2=int(random(40,320)); 
-int velX2=2;
-int velY2=-2;
-//circulo3
-int posX3=int(random(40,600)); 
-int posY3=int(random(40,320)); 
-int velX3=-2;
-int velY3=2;
-//color
-color coloruno=#638AF0;
-color colordos=#F25A5A;
-color colortres=#63EA36;
-color auxiliar;
+Circulo circulo1, circulo2;
+color amarillo=#F5FC24, azul=#3B84FF, rojo=#FF3B3F,verde=#3BFF46;
 
 void setup() {
-  size(640,360); //tamaño ventana
-  surface.setResizable(true);//ventana ajustable
+  size(480,320);
+  surface.setResizable(true);
+  circulo1=new Circulo(260,160,1,-1,80,amarillo); //instanciamos objeto de la clase Circulo
+  circulo2=new Circulo(60,260,2,-2,50,rojo);
 }
 
-void draw(){
-  background(255); //fondo blanco
+void draw() {
+  background(#08b8eb);
+  circulo1.mostrar();
+  circulo1.mover();
+  circulo2.mostrar();
+  circulo2.mover();
   
-  //circulo1
-  fill(coloruno); //color de relleno
-  noStroke(); //sin borde
-  ellipse(posX,posY,80,80); //dibuja circulo
-  posX=posX+velX;
-  posY=posY+velY;
-  if(posX>=width-40 || posX<=40) {velX=-velX;}
-  if(posY>=height-40 || posY<=40) {velY=-velY;}
+}
+
+class Circulo {
+  int posX, posY, velX, velY, tam;
+  color relleno;
   
-  //circulo2
-  fill(colordos); //color de relleno
-  noStroke(); //sin borde
-  ellipse(posX2,posY2,80,80); //dibuja circulo
-  posX2=posX2+velX2;
-  posY2=posY2+velY2;
-  if(posX2>=width-40 || posX2<=40) {velX2=-velX2;}
-  if(posY2>=height-40 || posY2<=40) {velY2=-velY2;}
-  
-  //circulo3
-  fill(colortres); //color de relleno
-  noStroke(); //sin borde
-  ellipse(posX3,posY3,60,60); //dibuja circulo
-  posX3=posX3+velX3;
-  posY3=posY3+velY3;
-  if(posX3>=width-30 || posX3<=30) {velX3=-velX3;}
-  if(posY3>=height-30 || posY3<=30) {velY3=-velY3;}
-  
-  //choque entre circulos
-  if(dist(posX,posY,posX2,posY2)<=80){
-    velX=-velX;
-    velX2=-velX2;
-    velY=-velY;
-    velY2=-velY2;
-    auxiliar=coloruno;
-    coloruno=colordos;
-    colordos=auxiliar;
+  Circulo (int pX, int pY, int vX, int vY, int ta, color rell){ //constructor
+          posX=pX;
+          posY=pY; 
+          velX=vX; 
+          velY=vY;
+          tam=ta; 
+          relleno=rell;
   }
-  if(dist(posX,posY,posX3,posY3)<=70){
-    velX=-velX;
-    velX3=-velX3;
-    velY=-velY;
-    velY3=-velY3;
-    auxiliar=coloruno;
-    coloruno=colortres;
-    colortres=auxiliar;
+  void mostrar() { //método de la clase
+      fill(relleno); //color de relleno
+      noStroke(); //sin borde
+      ellipse(posX,posY,tam,tam);
   }
-  if(dist(posX2,posY2,posX3,posY3)<=70){
-    velX2=-velX2;
-    velX3=-velX3;
-    velY2=-velY2;
-    velY3=-velY3;
-    auxiliar=colordos;
-    colordos=colortres;
-    colortres=auxiliar;
+  void mover() {
+      posX=posX+velX;
+      posY=posY+velY;
+      if(posX>=width-tam/2 || posX<=tam/2) {velX=-velX;}
+      if(posY>=height-tam/2 || posY<=tam/2) {velY=-velY;}
   }
-  if(mousePressed) {  
-    velX=int(random(-5,5));
-    velY=int(random(-5,5));
-    velX2=int(random(-5,5));
-    velY2=int(random(-5,5));
-    velX3=int(random(-5,5));
-    velY3=int(random(-5,5));
-  }
+}
 }
